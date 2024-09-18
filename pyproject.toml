@@ -1,0 +1,64 @@
+# See: https://setuptools.pypa.io/en/latest/userguide/pyproject_config.html
+
+[build-system]
+# PEP 660 – Editable installs for pyproject.toml based builds (wheel based)
+# Requires: setuptools>=64
+requires = [
+    "setuptools>=64",
+]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "chess_server"
+readme = "README.md"
+requires-python = ">=3.8"
+# Fixed version since we do not care about publishing that package
+version = "99999"
+classifiers = [
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+]
+dependencies = [
+    "Flask",
+]
+
+[project.optional-dependencies]
+tests = [
+    "coverage",
+    "mypy",
+    "parameterized",
+    "pre-commit",
+    "pytest",
+]
+
+[project.scripts]
+chess_server = "chess_server.main:main"
+
+[project.urls]
+homepage = "https://github.com/ColasGael/chess_server"
+
+# Specify a custom package discovery strategy
+# Since we have other PY folders that we do NOT want to include with the automatic discovery
+[tool.setuptools.packages.find]
+include = ["chess_server"]
+
+[tool.black]
+line-length = 100
+
+[tool.flake8]
+exclude = [
+    ".git",
+    ".venv*",
+]
+# Ensure compatibility with black
+extend-ignore = [
+    # See: https://black.readthedocs.io/en/stable/the_black_code_style/current_style.html#slices
+    "E203",  # whitespace before ':'
+    # See: https://black.readthedocs.io/en/stable/the_black_code_style/current_style.html#line-length
+    "E501",  # line too long
+]
+max-line-length = 100
+
+[tool.coverage.run]
+source = ["chess_server"]

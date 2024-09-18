@@ -1,0 +1,36 @@
+
+<h2>Chess Game Result</h2>
+
+<form action="/" method="post">
+  <label for="white_name">White Player:</label><br>
+  <input list="white_names" id="white_name" name="white_name">
+  <datalist id="white_names">
+    {% for player in players %}
+      <option value="{{ player.name }}">
+    {% endfor %}
+  </datalist><br>
+
+  <label for="black_name">Black Player:</label><br>
+  <input list="black_names" id="black_name" name="black_name">
+  <datalist id="black_names">
+    {% for player in players %}
+      <option value="{{ player.name }}">
+    {% endfor %}
+  </datalist><br>
+
+  <label for="outcome_value">Outcome:</label><br>
+  <select id="outcome_value" name="outcome_value">
+    {% for outcome in outcomes %}
+      <option value="{{ outcome.value }}">{{ outcome.value }}</option>
+    {% endfor %}
+  </select><br>
+
+  <input type="submit" value="Submit">
+</form>
+
+<form action="/stats" method="get">
+  <button type="submit">View Statistics</button>
+</form>
+
+</body>
+</html>

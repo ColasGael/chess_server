@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h2>Players' Statistics</h2>
+
+<table>
+  <tr>
+    <th>Player</th>
+    <th>Elo</th>
+    <th>Wins</th>
+    <th>Draws</th>
+    <th>Losses</th>
+  </tr>
+  {% for player in players|sort(attribute='elo', reverse=true) %}
+  <tr>
+    <td>{{ player.name }}</td>
+    <td>{{ player.elo }}</td>
+    <td>{{ player.wins }}</td>
+    <td>{{ player.draws }}</td>
+    <td>{{ player.losses }}</td>
+  </tr>
+{% endfor %}
+</table>
+
+<form action="/" method="get">
+  <button type="submit">Back Home</button>
+</form>
+
+</body>
+</html>

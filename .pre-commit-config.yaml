@@ -1,0 +1,47 @@
+---
+# See https://pre-commit.com for more information
+# See https://pre-commit.com/hooks.html for more hooks
+default_install_hook_types: [pre-commit, pre-push]
+default_stages: [pre-commit]
+fail_fast: true
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v3.2.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-added-large-files
+      - id: check-merge-conflict
+      - id: check-toml
+      - id: check-yaml
+        exclude: schema.yaml
+  - repo: https://github.com/adrienverge/yamllint.git
+    rev: v1.29.0
+    hooks:
+      - id: yamllint
+  - # pre-commit wrapper around the Yamale schema validation library
+    # repo: https://github.com/23andMe/Yamale
+    repo: https://github.com/k-ogawa-1988/yamale-pre-commit
+    rev: v0.0.2
+    hooks:
+      - id: yamale-validate
+        args:
+          - --schema=../candidates_schema.yaml
+        files: candidates.yaml
+  # Run auto-formatting before linting: to fix most formatting issues
+  - repo: https://github.com/psf/black
+    rev: 22.10.0
+    hooks:
+      - id: black
+        # By default: the hook will fail if black modifies any file
+        # This is a feature, not a bug: the framework intentionally does not
+        # provide a way to auto-commit modifications
+        # But we can use the following to auto-commit the changes:
+        entry: bash -c 'black "$@" && git add -u' --
+  - repo: https://github.com/pycqa/flake8
+    rev: 7.0.0
+    hooks:
+      - id: flake8
+        # flake8 does NOT support defining the configuration in pyproject.toml
+        # See: https://pypi.org/project/Flake8-pyproject/
+        additional_dependencies: [flake8-pyproject]

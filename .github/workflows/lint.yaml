@@ -1,0 +1,22 @@
+name: Lint
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v3
+        with:
+          python-version: "3.8"
+      - name: Install dependencies
+        env:
+          SKIP_GITHOOKS: true
+        run: |
+          source setup_venv.sh
+      - name: Run lint checks on all files
+        run: |
+          source .venv/bin/activate
+          pre-commit run --all-files
