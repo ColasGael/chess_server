@@ -15,6 +15,8 @@ def get_args():
     parser.add_argument(
         "--template_folder", type=str, default="templates", help="Path to the templates folder"
     )
+    parser.add_argument("--host", type=str, help="Host IP address")
+    parser.add_argument("--port", type=int, help="Port number")
     args = parser.parse_args()
     # Convert relative path to absolute path
     args.database_path = os.path.abspath(args.database_path)
@@ -26,7 +28,7 @@ def get_args():
 def main():
     args = get_args()
     server = Server(args.database_path, template_folder=args.template_folder)
-    server.start()
+    server.start(host=args.host, port=args.port)
 
 
 if __name__ == "__main__":

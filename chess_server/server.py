@@ -34,7 +34,7 @@ class Server(object):
             csv_writer = csv.writer(csvfile)
             csv_writer.writerow(args)
 
-    def start(self) -> None:
+    def start(self, host=None, port=None) -> None:
         @self.__app.route("/", methods=["GET", "POST"])
         def home() -> str:
             """Home page of the server: display a form to record a new game result"""
@@ -57,4 +57,4 @@ class Server(object):
             """Display the players' stats"""
             return flask.render_template("players_stats.html", players=self.__elo_ranker.players)
 
-        self.__app.run()
+        self.__app.run(host=host, port=port)
